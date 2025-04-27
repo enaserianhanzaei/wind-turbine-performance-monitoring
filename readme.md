@@ -4,6 +4,54 @@
 
 The objective of this project is to process turbine sensor data, perform basic cleaning and validation, store the data efficiently, generate daily statistical summaries, and detect anomalies in daily turbine performance compared to historical behavior.
 
+
+## Setup and Installation
+
+### 1. Create a New Python Environment and Install Dependencies
+
+#### Create & activate a virtual environment:
+```bash
+python -m venv venv
+source venv/bin/activate       # MacOS / Linux
+# .\venv\Scripts\activate    # Windows (PowerShell)
+
+pip install -r requirements.txt
+```
+
+### 2. Ensure SQLite is Installed
+#### For MacOS:
+```bash
+brew install sqlite
+```
+#### For Ubuntu / Debian:
+```bash
+sudo apt-get update
+sudo apt-get install sqlite3 libsqlite3-dev
+```
+
+### 3. Run the Pipeline
+To run the pipeline, first, ensure the src folder is included in your PYTHONPATH:
+
+(for MacOS or Linux):
+```
+cd <project-folder>
+export PYTHONPATH=$PYTHONPATH:$(pwd)/src
+```
+(for Windows OS):
+```
+cd <project-folder>
+$env:PYTHONPATH = "$env:PYTHONPATH;$PWD\src"
+```
+Then:
+```
+python scripts/run_ingestion_db_pipeline_single_file.py
+```
+This will read and validate a file resources/data_group_1.csv (default), 
+- clean and handle missing values/outliers, 
+- and store raw readings, daily summaries, 
+- and anomalies in SQLite database (wind_turbine_data.db)
+
+
 ## Summary of What I Did
 
 The project was divided into three main stages: ingestion, persistence, and analysis. Each stage involved careful design decisions and handling of practical assumptions.
@@ -70,49 +118,3 @@ Although the basic anomaly detection is based on standard deviation thresholds, 
 
 The overall system was built to be modular and extendable. It allows easy addition of more sophisticated anomaly detection strategies, richer turbine metadata, real-time data processing pipelines, and integration with cloud-hosted databases for scaling to production.
 
-
-## Setup and Installation
-
-### 1. Create a New Python Environment and Install Dependencies
-
-#### Create & activate a virtual environment:
-```bash
-python -m venv venv
-source venv/bin/activate       # MacOS / Linux
-# .\venv\Scripts\activate    # Windows (PowerShell)
-
-pip install -r requirements.txt
-```
-
-### 2. Ensure SQLite is Installed
-#### For MacOS:
-```bash
-brew install sqlite
-```
-#### For Ubuntu / Debian:
-```bash
-sudo apt-get update
-sudo apt-get install sqlite3 libsqlite3-dev
-```
-
-### 3. Run the Pipeline
-To run the pipeline, first, ensure the src folder is included in your PYTHONPATH:
-
-(for MacOS or Linux):
-```
-cd <project-folder>
-export PYTHONPATH=$PYTHONPATH:$(pwd)/src
-```
-(for Windows OS):
-```
-cd <project-folder>
-$env:PYTHONPATH = "$env:PYTHONPATH;$PWD\src"
-```
-Then:
-```
-python scripts/run_ingestion_db_pipeline_single_file.py
-```
-This will read and validate a file resources/data_group_1.csv (default), 
-- clean and handle missing values/outliers, 
-- and store raw readings, daily summaries, 
-- and anomalies in SQLite database (wind_turbine_data.db)
