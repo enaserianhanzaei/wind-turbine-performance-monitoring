@@ -17,6 +17,13 @@ if __name__ == "__main__":
             f"The file {path} does not exist."),
         help="Path to the folder of csv files to process",
     )
+    parser.add_argument(
+        "--window_days",
+        default=7,
+        type=int,
+        help="number of days to be considered to calculate the historical pattern",
+    )
+
     args = parser.parse_args()
 
     folder_name = os.path.basename(args.csv_folder)
@@ -28,4 +35,6 @@ if __name__ == "__main__":
         # Create the full file path
         file_path = os.path.join(args.csv_folder, csv_file)
         target_date = pd.Timestamp(csv_file.split('.')[0]).date()
-        ingestion_db_pipeline.run_pipeline(file_path, target_date=target_date, group_name=folder_name)
+        ingestion_db_pipeline.run_pipeline(file_path, target_date=target_date,
+                                           group_name=folder_name,
+                                           window_days=args.window_days)

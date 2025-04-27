@@ -18,7 +18,11 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-def run_pipeline(csv_file_path: str, target_date: date = None, update_existing: bool = False, group_name: str = None):
+def run_pipeline(csv_file_path: str,
+                 target_date: date = None,
+                 update_existing: bool = False,
+                 group_name: str = None,
+                 window_days: int = 7):
     # Ensure tables exist (no-op if already created)
     create_database()
 
@@ -62,7 +66,10 @@ def run_pipeline(csv_file_path: str, target_date: date = None, update_existing: 
 
         if target_date:
             logger.info(f"Detecting daily anomalies for data {target_date}")
-            anomalies_df = detect_daily_output_sum_anomalies(db=session, today_df=df, target_date=target_date)
+            anomalies_df = detect_daily_output_sum_anomalies(db=session,
+                                                             today_df=df,
+                                                             target_date=target_date,
+                                                             window_days=window_days)
             if not anomalies_df.empty:
                 logger.info("Inserting daily anomalies...")
                 insert_reading_level_anomalies(session, anomalies_df)

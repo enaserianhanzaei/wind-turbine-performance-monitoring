@@ -29,6 +29,13 @@ if __name__ == "__main__":
         help="name of the data group",
     )
 
+    parser.add_argument(
+        "--window_days",
+        default=7,
+        type=int,
+        help="number of days to be considered to calculate the historical pattern",
+    )
+
     args = parser.parse_args()
 
     # for the purpose of test
@@ -36,4 +43,4 @@ if __name__ == "__main__":
 
     group_name = args.csv_file.split('/')[-1].split('.')[0] if not args.group_name else args.group_name
 
-    ingestion_db_pipeline.run_pipeline(args.csv_file, target_date, group_name)
+    ingestion_db_pipeline.run_pipeline(args.csv_file, target_date, group_name, window_days=args.window_days)
