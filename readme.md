@@ -51,8 +51,26 @@ This will read and validate a file resources/data_group_1.csv (default),
 - and store raw readings, daily summaries, 
 - and anomalies in SQLite database (wind_turbine_data.db)
 
+### 4. Scripts
+##### run_ingestion_db_pipeline_single_file.py
+This script is designed to run the full pipeline for a single CSV file. You provide the path to the CSV file and an optional group name, and the pipeline performs the steps.
 
-## Summary of What I Did
+You can run the script with the following command:
+```
+python scripts/run_ingestion_db_pipeline_single_file.py <path-to-csv> <group-name-optional>
+```
+
+##### run_ingestion_db_pipeline_multiple_files.py
+This script simulates the real-world scenario where turbine data is collected and stored daily. It processes multiple daily CSV files over time. The goal of this script is to handle the ingestion of data as it arrives each day, updating the database with data from previous days until today.
+```
+python scripts/run_ingestion_db_pipeline_multiple_files.py <path-to-csv-folder>
+```
+
+***How and Why***:
+To simulate a real-world daily ingestion scenario, the original CSV files (data_group_1.csv, data_group_2.csv, and data_group_3.csv) located in the resources/data directory were split into daily CSV files. Each daily CSV file contains all the data from day 0 up to the specific date, simulating real data that accumulates over time.
+For example, for date X, the CSV file for date X would contain turbine data from day 0 to day X. This is a more realistic scenario, where data for each day is processed and added to the database progressively.
+
+## Summary of the pipeline
 
 The project was divided into three main stages: ingestion, persistence, and analysis. Each stage involved careful design decisions and handling of practical assumptions.
 

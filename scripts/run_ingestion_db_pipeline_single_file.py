@@ -1,5 +1,6 @@
 import os
 import argparse
+
 import pandas as pd
 
 import ingestion_db_pipeline
@@ -20,9 +21,19 @@ if __name__ == "__main__":
         type=str,
         help="target date",
     )
+
+    parser.add_argument(
+        "--group_name",
+        default=None,
+        type=str,
+        help="name of the data group",
+    )
+
     args = parser.parse_args()
 
     # for the purpose of test
     target_date = pd.Timestamp(args.target_date).date()
 
-    ingestion_db_pipeline.run_pipeline(args.csv_file, target_date)
+    group_name = args.csv_file.split('/')[-1].split('.')[0] if not args.group_name else args.group_name
+
+    ingestion_db_pipeline.run_pipeline(args.csv_file, target_date, group_name)
