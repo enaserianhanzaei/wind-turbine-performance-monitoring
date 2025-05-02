@@ -1,4 +1,3 @@
-import pdb
 from datetime import date
 
 from ingestion.reader import read_and_validate_csv

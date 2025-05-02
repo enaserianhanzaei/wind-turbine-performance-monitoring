@@ -43,4 +43,7 @@ if __name__ == "__main__":
 
     group_name = args.csv_file.split('/')[-1].split('.')[0] if not args.group_name else args.group_name
 
-    ingestion_db_pipeline.run_pipeline(args.csv_file, target_date, group_name, window_days=args.window_days)
+    ingestion_db_pipeline.run_pipeline(csv_file_path=args.csv_file,
+                                       target_date=target_date,
+                                       group_name=group_name,
+                                       window_days=args.window_days)

@@ -35,6 +35,7 @@ if __name__ == "__main__":
         # Create the full file path
         file_path = os.path.join(args.csv_folder, csv_file)
         target_date = pd.Timestamp(csv_file.split('.')[0]).date()
-        ingestion_db_pipeline.run_pipeline(file_path, target_date=target_date,
+        ingestion_db_pipeline.run_pipeline(csv_file_path=file_path,
+                                           target_date=target_date,
                                            group_name=folder_name,
                                            window_days=args.window_days)
